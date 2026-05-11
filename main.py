@@ -13,6 +13,7 @@ CHEF_PATH = "commands.chef"
 
 COGS = [
     "honeypot",
+    "reactToMessages"
 ]
 
 CHEF_COGS = [
