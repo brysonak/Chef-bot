@@ -14,11 +14,11 @@ CHEF_PATH = "commands.chef"
 COGS = [
     "honeypot",
     "reload_changed_extension",
-    "reactToMessages",
 ]
 
 CHEF_COGS = [
     "is-the-bot-dying",
+    "reactToMessages"
 ]
 
 
