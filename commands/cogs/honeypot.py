@@ -10,6 +10,7 @@ class Honeypot(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        print(f"Message received in {message.channel}")
         if message.author.bot:
             return
         print(f"Honeypot triggered by {message.author} in {message.channel}")
