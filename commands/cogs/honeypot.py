@@ -12,23 +12,24 @@ class Honeypot(commands.Cog):
     async def on_message(self, message):
         if message.author.bot:
             return
+        print(f"Honeypot triggered by {message.author} in {message.channel}")
         if message.channel.id != CHANNEL:
             return
 
         guild = message.guild
         member = message.author
-
+        print(f"Attempting to ban {member.display_name} for triggering honeypot")
         try:
             await message.delete()
         except discord.HTTPException:
-            pass
+            print(f"Failed to delete message from {member.display_name} in honeypot channel")
 
         try:
             await guild.ban(member, reason="Honeypot channel trigger", delete_message_days=0)
         except discord.Forbidden:
-            pass
+            print(f"Failed to ban {member.display_name} for triggering honeypot. Ensure paulie has ban permissions.")
         except discord.HTTPException:
-            pass
+            print(f"HTTP error occurred while banning {member.display_name} for triggering honeypot")
 
 
 async def setup(bot):
