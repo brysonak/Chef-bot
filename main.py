@@ -13,11 +13,12 @@ CHEF_PATH = "commands.chef"
 
 COGS = [
     "honeypot",
-    "reactToMessages"
+    "reload_changed_extension",
 ]
 
 CHEF_COGS = [
     "is-the-bot-dying",
+    "reactToMessages"
 ]
 
 
@@ -33,6 +34,7 @@ bot = commands.Bot(command_prefix=get_prefix, intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
+    await bot.tree.sync()
     if bot.user:
         print(f"logged in successfully")
 
