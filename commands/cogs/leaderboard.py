@@ -7,6 +7,7 @@ CHANNEL = 1503833285728669716
 class Leaderboard(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.edit_leaderboard.start()
         
     @commands.command(name='update_leaderboard')
     @commands.has_permissions(manage_messages=True)
@@ -61,4 +62,3 @@ class Leaderboard(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(Leaderboard(bot))
-    await Leaderboard.edit_leaderboard.start()
