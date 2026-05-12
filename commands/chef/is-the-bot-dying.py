@@ -1,9 +1,10 @@
-from asyncio import subprocess
+import asyncio
 
 import discord
 import psutil
 import os
 from discord.ext import commands
+
 
 class IsTheBotDying(commands.Cog):
     def __init__(self, bot):
@@ -41,7 +42,24 @@ class IsTheBotDying(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     async def restart_bot(self, ctx):
         await ctx.send("Pulling changes from git...")
-        await subprocess.run(["git", "pull", "origin", "main"])
+        process = await asyncio.create_subprocess_exec(
+            "git", "pull", "origin", "main",
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+
+        stdout, stderr = await process.communicate()
+
+        if process.returncode != 0:
+            await ctx.send(
+                f"Git pull failed... BAD, GET BRYSON:\n```{stderr.decode(errors='ignore')}```"
+            )
+            return
+
+        await ctx.send(
+            f"Git pull complete:\n```{stdout.decode(errors='ignore')}```"
+        )
+
         await ctx.send("Restarting bot...")
         await self.bot.close()
 
