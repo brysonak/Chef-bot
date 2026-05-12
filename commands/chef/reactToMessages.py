@@ -33,10 +33,10 @@ class ReactToMessages(commands.Cog):
             return
 
         if "wtf chef" in message.content.lower():
-            await message.channel.send(file=discord.File(str(ASSET_PATH) + "/image.png"), filename="wtf-chef.png")
+            await message.channel.send(file=discord.File(str(ASSET_PATH) + "/image.png", filename="wtf-chef.png"))
 
         if "yes chef" in message.content.lower():
-            await message.channel.send(file=discord.File(str(ASSET_PATH) + "/yes-chef.png"), filename="yes-chef.png")
+            await message.channel.send(file=discord.File(str(ASSET_PATH) + "/yes-chef.png", filename="yes-chef.png"))
 
         if "random chef" in message.content.lower():
             valid_pictures = []
