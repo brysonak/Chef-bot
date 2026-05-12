@@ -40,8 +40,6 @@ async def on_ready():
         print(f"logged in successfully")
     await update_status.start()
 
-
-@tasks.loop(minutes=10)
 async def update_status():
     url = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=3471110"
     async with aiohttp.ClientSession() as session:
@@ -60,7 +58,11 @@ async def update_status():
     else:
         await bot.change_presence(activity=discord.Game(name="Serving up some tasty dungeons in Nightmare Kitchen!"))
 
-@commands.command(name="update_status")
+@tasks.loop(minutes=10)
+async def update_status():
+    await update_status()
+
+@bot.command(name="update_status")
 @commands.has_permissions(manage_messages=True)
 async def update_status_command(ctx):
     await update_status()
