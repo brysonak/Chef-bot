@@ -12,11 +12,11 @@ class Leaderboard(commands.Cog):
     async def edit_leaderboard(self):
         edited_leaderboard = False
         leaderboard_channel = self.bot.get_channel(CHANNEL)
-
-        leaderboard_message = generate_leaderboard_message()
+        # Gotta add in the class here because intellisense is fucking annoying.
+        leaderboard_message = Leaderboard.generate_leaderboard_message()
 
         if leaderboard_channel is not None:
-            for message in leaderboard_channel.history(limit=100):
+            async for message in leaderboard_channel.history(limit=100):
                 if message.author == self.bot.user:
                     try:
                         await message.edit(content="Todays Top Chefs:\n" + leaderboard_message)
@@ -26,6 +26,7 @@ class Leaderboard(commands.Cog):
         if not edited_leaderboard:
             await leaderboard_channel.send("Todays Top Chefs:\n" + leaderboard_message)
 
+    @staticmethod
     def generate_leaderboard_message():
         board = nmk_leader.query_board_top('flappy', top_count=10)
         message = "Flappy Leaderboard:\n```"
@@ -47,7 +48,12 @@ class Leaderboard(commands.Cog):
 
         return message
 
+    async def cog_load(self):
+        self.edit_leaderboard.start()
+
+    async def cog_unload(self):
+        self.edit_leaderboard.cancel()
+
 
 async def setup(bot):
     await bot.add_cog(Leaderboard(bot))
-    await Leaderboard.edit_leaderboard.start()
