@@ -15,6 +15,7 @@ CHEF_PATH = "commands.chef"
 COGS = [
     "honeypot",
     "reload_changed_extension",
+    "leaderboard"
 ]
 
 CHEF_COGS = [
