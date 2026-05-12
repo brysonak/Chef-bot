@@ -59,6 +59,8 @@ def query_board_top(boardid, top_count=10):
     leaderboard = get_board(boardid)
     all_scores = leaderboard.entries
 
+    top_board = []
+
     idx = 0
     for entry in all_scores:
         if entry == None:
@@ -66,11 +68,12 @@ def query_board_top(boardid, top_count=10):
             continue
 
         entry.SetPersona(steamid_to_username(entry.steam_id))
-        print_score(entry)
-
+        top_board.append(entry)
         idx += 1
         if idx > top_count:
             break
+    
+    return top_board
 
 def query_board_user(boardid, userid):
     leaderboard = get_board(boardid)
