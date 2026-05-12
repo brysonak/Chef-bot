@@ -8,3 +8,5 @@ A custom Discord bot for the Nightmare Kitchen Discord server.
 Made by Nickwilde7755 and Bryson
 
 Currently in development.
+
+Run ./botscript to start the server. The script will restart the program whenever it exits with a non zero exit value.
