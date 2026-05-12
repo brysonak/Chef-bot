@@ -30,7 +30,7 @@ class Leaderboard(commands.Cog):
                         edited_leaderboard = True
                     except discord.HTTPException:
                         pass
-        if not edited_leaderboard:
+        if not edited_leaderboard and leaderboard_channel is not None:
             await leaderboard_channel.send("Todays Top Chefs:\n" + leaderboard_message)
 
     @staticmethod
