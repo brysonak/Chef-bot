@@ -2,10 +2,11 @@ import discord
 from discord.ext import commands
 from pathlib import Path
 from discord import app_commands
+import random
 
 
 CHANNELS = []
-ASSET_PATH = Path(__file__).resolve().parents[2] / "assets" / "yes-chef.png"
+ASSET_PATH = Path(__file__).resolve().parents[2] / "assets" / "reactionImages"
 CHANNEL_CONFIG_FILE = Path(__file__).resolve().parents[2] / "config" / "reaction_channels.txt"
 
 
@@ -34,7 +35,12 @@ class ReactToMessages(commands.Cog):
         if "yes chef" not in message.content.lower():
             return
 
-        await message.channel.send(file=discord.File(str(ASSET_PATH), filename="yes-chef.png"))
+        valid_pictures = []
+        for item in ASSET_PATH.iterdir():
+            if item.is_file() and item.suffix in [".png", ".jpg", ".jpeg", ".gif"]:
+                valid_pictures.append(item)
+
+        await message.channel.send(file=discord.File(str(random.choice(valid_pictures)), filename="yes-chef.png"))
 
     @app_commands.command(name="add_reaction_channel", description="Add a channel to the reaction channels list")
     @app_commands.checks.has_permissions(manage_messages=True)
