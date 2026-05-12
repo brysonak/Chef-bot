@@ -61,4 +61,4 @@ class Leaderboard(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(Leaderboard(bot))
-    await self.edit_leaderboard.start()
+    await Leaderboard.edit_leaderboard.start()
