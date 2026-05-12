@@ -2,7 +2,7 @@ import discord
 import os
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
-from nmk_leaderboard_module import steamleaderboardsWill
+from nmk_leaderboard_module.steamleaderboardsWill
 import aiohttp
 
 load_dotenv()
