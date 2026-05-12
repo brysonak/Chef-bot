@@ -33,6 +33,11 @@ class Leaderboard(commands.Cog):
         if not edited_leaderboard and leaderboard_channel is not None:
             await leaderboard_channel.send("Todays Top Chefs:\n" + leaderboard_message)
 
+    @edit_leaderboard.before_loop
+    async def before_edit_leaderboard(self):
+        print("Waiting for bot to be ready before starting leaderboard loop...")
+        await self.bot.wait_until_ready()
+
     @staticmethod
     def generate_leaderboard_message():
         board = nmk_leader.query_board_top('flappy', top_count=10)
