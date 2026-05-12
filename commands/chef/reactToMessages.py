@@ -40,7 +40,7 @@ class ReactToMessages(commands.Cog):
             if item.is_file() and item.suffix in [".png", ".jpg", ".jpeg", ".gif"]:
                 valid_pictures.append(item)
 
-        await message.channel.send(file=discord.File(str(random.choice(valid_pictures)), filename="yes-chef.png"))
+        await message.channel.send(file=discord.File(str(ASSET_PATH) + str(random.choice(valid_pictures)), filename="yes-chef.png"))
 
     @app_commands.command(name="add_reaction_channel", description="Add a channel to the reaction channels list")
     @app_commands.checks.has_permissions(manage_messages=True)
