@@ -19,12 +19,12 @@ class Leaderboard(commands.Cog):
             for message in leaderboard_channel.history(limit=100):
                 if message.author == self.bot.user:
                     try:
-                        await message.edit(content="Todays Top Players:\n" + leaderboard_message)
+                        await message.edit(content="Todays Top Chefs:\n" + leaderboard_message)
                         edited_leaderboard = True
                     except discord.HTTPException:
                         pass
         if not edited_leaderboard:
-            await leaderboard_channel.send("Todays Top Players:\n" + leaderboard_message)
+            await leaderboard_channel.send("Todays Top Chefs:\n" + leaderboard_message)
 
     def generate_leaderboard_message():
         board = nmk_leader.query_board_top('flappy', top_count=10)
