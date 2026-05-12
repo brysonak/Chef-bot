@@ -41,6 +41,17 @@ async def on_ready():
         print(f"logged in successfully")
     await update_status_loop.start()
 
+@bot.event
+async def on_command_error(context, exception):
+    if isinstance(exception, commands.MissingPermissions):
+        await context.send("You don't have permission to use this command.")
+    elif isinstance(exception, commands.CommandNotFound):
+        pass
+    else:
+        dev_channel = bot.get_channel(1503503498497622297)
+        await dev_channel.send(f"An error occurred in command {context.command}: {exception}")
+        print(exception.with_traceback(exception.__traceback__))
+
 async def update_status():
     url = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=3471110"
     async with aiohttp.ClientSession() as session:
