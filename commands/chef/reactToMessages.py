@@ -42,7 +42,7 @@ class ReactToMessages(commands.Cog):
         with open(CHANNEL_CONFIG_FILE, "a") as config_file:
             config_file.write(f"{channel.id}\n")
 
-        await interaction.response.send_message(f"Channel ID {channel.id} has been added to the reaction channels list.")
+        await interaction.response.send_message(f"Channel ID {channel.id} has been added to the reaction channels list.", ephemeral=True)
 
     @app_commands.command(name="remove_reaction_channel", description="Remove a channel from the reaction channels list")
     @app_commands.checks.has_permissions(manage_messages=True)
