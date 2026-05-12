@@ -32,15 +32,19 @@ class ReactToMessages(commands.Cog):
         if message.channel.id not in CHANNELS:
             return
 
-        if "yes chef" not in message.content.lower():
-            return
+        if "wtf chef" in message.content.lower():
+            await message.channel.send(file=discord.File(ASSET_PATH + "/image.png"), filename="wtf-chef.png")
 
-        valid_pictures = []
-        for item in ASSET_PATH.iterdir():
-            if item.is_file() and item.suffix in [".png", ".jpg", ".jpeg", ".gif"]:
-                valid_pictures.append(item)
+        if "yes chef" in message.content.lower():
+            await message.channel.send(file=discord.File(ASSET_PATH + "/yes-chef.png"), filename="yes-chef.png")
 
-        await message.channel.send(file=discord.File(str(random.choice(valid_pictures)), filename="yes-chef.png"))
+        if "random chef" in message.content.lower():
+            valid_pictures = []
+            for item in ASSET_PATH.iterdir():
+                if item.is_file() and item.suffix in [".png", ".jpg", ".jpeg", ".gif"]:
+                    valid_pictures.append(item)
+
+            await message.channel.send(file=discord.File(str(random.choice(valid_pictures)), filename="yes-chef.png"))
 
     @app_commands.command(name="add_reaction_channel", description="Add a channel to the reaction channels list")
     @app_commands.checks.has_permissions(manage_messages=True)
