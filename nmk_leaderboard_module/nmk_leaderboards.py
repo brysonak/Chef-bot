@@ -1,4 +1,4 @@
-import steamleaderboards as steamboards
+import steamleaderboardsWill as steamboards
 import requests
 import os
 
