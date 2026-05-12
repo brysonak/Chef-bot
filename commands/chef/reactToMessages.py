@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from pathlib import Path
+from discord import app_commands
 
 
 CHANNELS = []
@@ -30,11 +31,9 @@ class ReactToMessages(commands.Cog):
 
         await message.channel.send(file=discord.File(str(ASSET_PATH), filename="yes-chef.png"))
 
-    @commands.command(name="add_reaction_channel")
-    @commands.checks.has_permissions(manage_messages=True)
+    @app_commands.command(name="add_reaction_channel", description="Add a channel to the reaction channels list")
+    @app_commands.checks.has_permissions(manage_messages=True)
     async def add_reaction_channel(self, ctx, channel: discord.TextChannel):
-        #This specifically has not been added as a slash command because my take is security through obscurity.
-        #The less people that know about moderator commands, the less people who'll try to test it for any exploits.
         channel_id = channel.id
         if channel_id in CHANNELS:
             await ctx.send(f"Channel ID {channel_id} is already in the reaction channels list.")
@@ -46,11 +45,9 @@ class ReactToMessages(commands.Cog):
 
         await ctx.send(f"Channel ID {channel_id} has been added to the reaction channels list.")
 
-    @commands.command(name="remove_reaction_channel")
-    @commands.checks.has_permissions(manage_messages=True)
-    async def add_reaction_channel(self, ctx, channel: discord.TextChannel):
-        #This specifically has not been added as a slash command because my take is security through obscurity.
-        #The less people that know about moderator commands, the less people who'll try to test it for any exploits.
+    @app_commands.command(name="remove_reaction_channel", description="Remove a channel from the reaction channels list")
+    @app_commands.checks.has_permissions(manage_messages=True)
+    async def remove_reaction_channel(self, ctx, channel: discord.TextChannel):
         channel_id = channel.id
         if not channel_id in CHANNELS:
             await ctx.send(f"Channel ID {channel_id} is not in the reaction channels list.")

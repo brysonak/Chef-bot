@@ -30,6 +30,16 @@ class IsTheBotDying(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(name="list_commands")
+    async def list_commands(self, ctx):
+        command_list = [command.name for command in self.bot.commands]
+        await ctx.send(f"Loaded commands: {', '.join(command_list)}")
+
+    @commands.command(name="restart_bot")
+    @commands.checks.has_permissions(manage_messages=True)
+    async def restart_bot(self, ctx):
+        await ctx.send("Restarting bot...")
+        await self.bot.close()
 
 async def setup(bot):
     await bot.add_cog(IsTheBotDying(bot))

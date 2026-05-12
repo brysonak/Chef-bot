@@ -57,4 +57,10 @@ async def main():
 
 if __name__ == "__main__":
     import asyncio
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    finally:
+        import sys
+        sys.exit(-1) #If running with the botscript, -1 will cause the script to restart the bot. This also means if there is a truly fatal error,
+        #The script will handle restarting the bot.
+        #Note that python syntax errors will prevent the bot from starting.
