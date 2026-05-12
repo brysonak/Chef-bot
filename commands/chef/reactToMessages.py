@@ -12,11 +12,16 @@ CHANNEL_CONFIG_FILE = Path(__file__).resolve().parents[2] / "config" / "reaction
 class ReactToMessages(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        with open(CHANNEL_CONFIG_FILE, "r") as config_file:
-            for line in config_file:
-                line = line.strip()
-                if not line == "":
-                    CHANNELS.append(int(line))
+        try:
+            with open(CHANNEL_CONFIG_FILE, "r") as config_file:
+                for line in config_file:
+                    line = line.strip()
+                    if not line == "":
+                        CHANNELS.append(int(line))
+        except FileNotFoundError:
+            with open(CHANNEL_CONFIG_FILE, "w") as config_file:
+                pass
+            print("Reaction channel config file not found, made a new one.")
 
     @commands.Cog.listener()
     async def on_message(self, message):
