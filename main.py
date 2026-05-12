@@ -62,7 +62,7 @@ async def update_status():
 
 @commands.command(name="update_status")
 @commands.has_permissions(manage_messages=True)
-async def update_status(ctx):
+async def update_status_command(ctx):
     await update_status()
     await ctx.send("Status updated!")
 
