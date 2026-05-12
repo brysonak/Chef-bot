@@ -47,10 +47,13 @@ async def update_status():
             if response.status == 200:
                 data = await response.json()
                 channel = bot.get_channel(1503503498497622297)
-                if channel:
-                    await channel.send(data)
+                
                 player_count = data.get("response", 0)
+                if channel:
+                    await channel.send(player_count)
                 player_count = player_count["player_count"] if isinstance(player_count, dict) else -1
+                if channel:
+                    await channel.send(player_count)
             else:
                 player_count = -1
     if player_count == 1:
