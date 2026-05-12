@@ -52,7 +52,7 @@ class IsTheBotDying(commands.Cog):
 
         if process.returncode != 0:
             await ctx.send(
-                f"Git pull failed... BAD, GET BRYSON:\n```{stderr.decode(errors='ignore')}```"
+                f"Git pull failed... BAD, GET BRYSON (<@1354212788888932382>):\n```{stderr.decode(errors='ignore')}```"
             )
             return
 

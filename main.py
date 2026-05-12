@@ -1,7 +1,8 @@
 import discord
 import os
-from discord.ext import commands
+from discord.ext import commands, tasks
 from dotenv import load_dotenv
+import aiohttp
 
 load_dotenv()
 
@@ -37,7 +38,33 @@ async def on_ready():
     await bot.tree.sync()
     if bot.user:
         print(f"logged in successfully")
+    await update_status.start()
 
+
+@tasks.loop(minutes=10)
+async def update_status():
+    url = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=3471110"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            if response.status == 200:
+                data = await response.json()
+                player_count = data.get("player_count", 0)
+            else:
+                player_count = -1
+    if player_count == 1:
+        await bot.change_presence(activity=discord.Game(name=f"{player_count} person playing Nightmare Kitchen on Steam!"))
+    elif player_count > 1:
+        await bot.change_presence(activity=discord.Game(name=f"{player_count} people playing Nightmare Kitchen on Steam!"))
+    elif player_count < 0:
+        await bot.change_presence(activity=discord.Game(name="Go play Nightmare Kitchen on Steam!"))
+    else:
+        await bot.change_presence(activity=discord.Game(name="Serving up some tasty dungeons in Nightmare Kitchen!"))
+
+@commands.command(name="update_status")
+@commands.has_permissions(manage_messages=True)
+async def update_status(ctx):
+    await update_status()
+    await ctx.send("Status updated!")
 
 async def load_cogs():
     for cog in COGS:
