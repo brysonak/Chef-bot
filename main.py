@@ -38,7 +38,7 @@ async def on_ready():
     await bot.tree.sync()
     if bot.user:
         print(f"logged in successfully")
-    await update_status.start()
+    await update_status_loop.start()
 
 async def update_status():
     url = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=3471110"
@@ -59,7 +59,7 @@ async def update_status():
         await bot.change_presence(activity=discord.Game(name="Serving up some tasty dungeons in Nightmare Kitchen!"))
 
 @tasks.loop(minutes=10)
-async def update_status():
+async def update_status_loop():
     await update_status()
 
 @bot.command(name="update_status")
