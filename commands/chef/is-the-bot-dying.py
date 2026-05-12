@@ -1,3 +1,5 @@
+from asyncio import subprocess
+
 import discord
 import psutil
 import os
@@ -38,6 +40,8 @@ class IsTheBotDying(commands.Cog):
     @commands.command(name="restart_bot")
     @commands.has_permissions(manage_messages=True)
     async def restart_bot(self, ctx):
+        await ctx.send("Pulling changes from git...")
+        await subprocess.run(["git", "pull", "origin", "main"])
         await ctx.send("Restarting bot...")
         await self.bot.close()
 
