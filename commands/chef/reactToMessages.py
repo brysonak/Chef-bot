@@ -60,7 +60,7 @@ class ReactToMessages(commands.Cog):
         with open(CHANNEL_CONFIG_FILE, "w") as config_file:
             config_file.write("\n".join(str(id) for id in CHANNELS))
 
-        await interaction.response.send_message(f"Channel ID {channel.id} has been removed from the reaction channels list.")
+        await interaction.response.send_message(f"Channel ID {channel.id} has been removed from the reaction channels list.", ephemeral=True)
 
     async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.MissingPermissions):
