@@ -34,17 +34,19 @@ class ReactToMessages(commands.Cog):
 
         if "wtf chef" in message.content.lower():
             await message.channel.send(file=discord.File(str(ASSET_PATH) + "/image.png", filename="wtf-chef.png"))
+            return
 
         if "yes chef" in message.content.lower():
             await message.channel.send(file=discord.File(str(ASSET_PATH) + "/yes-chef.png", filename="yes-chef.png"))
+            return
 
         if "random chef" in message.content.lower():
             valid_pictures = []
             for item in ASSET_PATH.iterdir():
                 if item.is_file() and item.suffix in [".png", ".jpg", ".jpeg", ".gif"]:
                     valid_pictures.append(item)
-
             await message.channel.send(file=discord.File(str(random.choice(valid_pictures)), filename="yes-chef.png"))
+            return
 
     @app_commands.command(name="add_reaction_channel", description="Add a channel to the reaction channels list")
     @app_commands.checks.has_permissions(manage_messages=True)
