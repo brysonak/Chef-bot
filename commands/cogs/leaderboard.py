@@ -8,6 +8,12 @@ class Leaderboard(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
+    @commands.command(name='update_leaderboard')
+    @commands.has_permissions(manage_messages=True)
+    async def update_leaderboard(self, ctx):
+        await self.edit_leaderboard()
+        await ctx.send("Leaderboard updated!")
+        
     @tasks.loop(minutes=1440)
     async def edit_leaderboard(self):
         edited_leaderboard = False
