@@ -1,4 +1,4 @@
-import steamleaderboardsWill as steamboards
+import nmk_leaderboard_module.steamleaderboardsWill as steamboards
 import requests
 import os
 
