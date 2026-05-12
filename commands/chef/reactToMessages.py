@@ -33,32 +33,33 @@ class ReactToMessages(commands.Cog):
 
     @app_commands.command(name="add_reaction_channel", description="Add a channel to the reaction channels list")
     @app_commands.checks.has_permissions(manage_messages=True)
-    async def add_reaction_channel(self, ctx, channel: discord.TextChannel):
-        channel_id = channel.id
-        if channel_id in CHANNELS:
-            await ctx.send(f"Channel ID {channel_id} is already in the reaction channels list.")
+    async def add_reaction_channel(self, interaction: discord.Interaction, channel: discord.TextChannel):
+        if channel.id in CHANNELS:
+            await interaction.response.send_message(f"Channel ID {channel.id} is already in the reaction channels list.", ephemeral=True)
             return
 
-        CHANNELS.append(channel_id)
+        CHANNELS.append(channel.id)
         with open(CHANNEL_CONFIG_FILE, "a") as config_file:
-            config_file.write(f"{channel_id}\n")
+            config_file.write(f"{channel.id}\n")
 
-        await ctx.send(f"Channel ID {channel_id} has been added to the reaction channels list.")
+        await interaction.response.send_message(f"Channel ID {channel.id} has been added to the reaction channels list.")
 
     @app_commands.command(name="remove_reaction_channel", description="Remove a channel from the reaction channels list")
     @app_commands.checks.has_permissions(manage_messages=True)
-    async def remove_reaction_channel(self, ctx, channel: discord.TextChannel):
-        channel_id = channel.id
-        if not channel_id in CHANNELS:
-            await ctx.send(f"Channel ID {channel_id} is not in the reaction channels list.")
+    async def remove_reaction_channel(self, interaction: discord.Interaction, channel: discord.TextChannel):
+        if channel.id not in CHANNELS:
+            await interaction.response.send_message(f"Channel ID {channel.id} is not in the reaction channels list.", ephemeral=True)
             return
 
-        CHANNELS.remove(channel_id)
+        CHANNELS.remove(channel.id)
         with open(CHANNEL_CONFIG_FILE, "w") as config_file:
             config_file.write("\n".join(str(id) for id in CHANNELS))
 
-        await ctx.send(f"Channel ID {channel_id} has been removed from the reaction channels list.")
+        await interaction.response.send_message(f"Channel ID {channel.id} has been removed from the reaction channels list.")
 
+    async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.MissingPermissions):
+            await interaction.response.send_message("You don't have permissions to run this command.", ephemeral=True)
 
 
 async def setup(bot):
