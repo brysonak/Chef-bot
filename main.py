@@ -51,13 +51,13 @@ async def update_status():
             else:
                 player_count = -1
     if player_count == 1:
-        await bot.change_presence(activity=discord.Game(name=f"{player_count} person playing Nightmare Kitchen on Steam!"))
+        await bot.change_presence(activity=discord.Game(name=f"{player_count} person playing Nightmare Kitchen"))
     elif player_count > 1:
-        await bot.change_presence(activity=discord.Game(name=f"{player_count} people playing Nightmare Kitchen on Steam!"))
+        await bot.change_presence(activity=discord.Game(name=f"{player_count} people playing Nightmare Kitchen"))
     elif player_count < 0:
         await bot.change_presence(activity=discord.Game(name="Go play Nightmare Kitchen on Steam!"))
     else:
-        await bot.change_presence(activity=discord.Game(name="Serving up some tasty dungeons in Nightmare Kitchen!"))
+        await bot.change_presence(activity=discord.Game(name="Serving up some tasty dungeons"))
 
 @tasks.loop(minutes=10)
 async def update_status_loop():
