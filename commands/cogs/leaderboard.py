@@ -13,7 +13,7 @@ class Leaderboard(commands.Cog):
     async def update_leaderboard(self, ctx):
         await self.edit_leaderboard()
         await ctx.send("Leaderboard updated!")
-        
+
     @tasks.loop(minutes=1440)
     async def edit_leaderboard(self):
         edited_leaderboard = False
@@ -54,8 +54,6 @@ class Leaderboard(commands.Cog):
 
         return message
 
-    async def cog_load(self):
-        self.edit_leaderboard.start()
 
     async def cog_unload(self):
         self.edit_leaderboard.cancel()
@@ -63,3 +61,4 @@ class Leaderboard(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(Leaderboard(bot))
+    await self.edit_leaderboard.start()
