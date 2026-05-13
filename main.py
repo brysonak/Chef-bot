@@ -55,7 +55,7 @@ async def on_error(context, exception):
             print(exception.with_traceback(exception.__traceback__))
         else:
             await dev_channel.send(f"An error occurred: {exception}")
-            print(exception.with_traceback(exception.__traceback__))
+            print(exception.with_traceback(exception))
 
 async def update_status():
     url = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=3471110"
