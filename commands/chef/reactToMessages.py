@@ -50,7 +50,7 @@ class ReactToMessages(commands.Cog):
 
         if "touch" in message.content.lower() and "paulie" in message.content.lower() and "chair" in message.content.lower():
             print("Paulie chair reaction triggered")
-            await message.channel.send("Dont touch my chair!", file=discord.File(str(ASSET_PATH) + "/paulieangry.png", filename="paulieangry.png"))
+            await message.channel.send("Dont touch my chair!", file=discord.File(str(ASSET_PATH) + "/paulieangy.png", filename="paulieangry.png"))
             return
 
     @app_commands.command(name="add_reaction_channel", description="Add a channel to the reaction channels list")

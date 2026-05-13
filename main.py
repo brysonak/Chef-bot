@@ -52,7 +52,7 @@ async def on_error(context, exception):
         dev_channel = bot.get_channel(1503503498497622297)
         if type(context) != type("") and context.command is not None:
             await dev_channel.send(f"An error occurred in command {context.command}: {exception}")
-            print(exception.with_traceback(exception.__traceback__))
+            print(exception.with_traceback(exception))
         else:
             await dev_channel.send(f"An error occurred: {exception}")
             print(exception.with_traceback(exception))
