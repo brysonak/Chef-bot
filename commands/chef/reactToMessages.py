@@ -48,6 +48,10 @@ class ReactToMessages(commands.Cog):
             await message.channel.send(file=discord.File(str(random.choice(valid_pictures)), filename="yes-chef.png"))
             return
 
+        if "touch" in message.content.lower() and "paulie" in message.content.lower() and "chair" in message.content.lower():
+            await message.channel.send("Dont touch my chair!", file=discord.File(str(ASSET_PATH) + "/paulieangry.png", filename="paulieangry.png"))
+            return
+
     @app_commands.command(name="add_reaction_channel", description="Add a channel to the reaction channels list")
     @app_commands.checks.has_permissions(manage_messages=True)
     async def add_reaction_channel(self, interaction: discord.Interaction, channel: discord.TextChannel):
