@@ -49,6 +49,7 @@ class ReactToMessages(commands.Cog):
             return
 
         if "touch" in message.content.lower() and "paulie" in message.content.lower() and "chair" in message.content.lower():
+            print("Paulie chair reaction triggered")
             await message.channel.send("Dont touch my chair!", file=discord.File(str(ASSET_PATH) + "/paulieangry.png", filename="paulieangry.png"))
             return
 
