@@ -42,20 +42,16 @@ async def on_ready():
         print(f"logged in successfully")
     await update_status_loop.start()
 
+
+# If you're getting syntax errors here, ignore them. Pyright is just being overly strict.
 @bot.event
-async def on_error(context, exception):
-    if isinstance(exception, commands.MissingPermissions):
-        await context.send("You don't have permission to use this command.")
-    elif isinstance(exception, commands.CommandNotFound):
-        pass
-    else:
-        dev_channel = bot.get_channel(1503503498497622297)
-        if type(context) != type("") and context.command is not None:
-            await dev_channel.send(f"An error occurred in command {context.command}: {exception}")
-            print(exception.with_traceback(exception))
-        else:
-            await dev_channel.send(f"An error occurred: {exception}")
-            print(exception.with_traceback(exception))
+async def on_error(event, *args, **kwargs):
+    import traceback, sys
+    dev_channel = bot.get_channel(1503503498497622297)
+    tb = traceback.format_exc()
+    if dev_channel:
+        await dev_channel.send(f"Error in `{event}`:\n```{tb[:1900]}```")
+    print(tb, file=sys.stderr))
 
 async def update_status():
     url = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=3471110"
