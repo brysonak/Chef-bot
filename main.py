@@ -51,7 +51,7 @@ async def on_error(event, *args, **kwargs):
     tb = traceback.format_exc()
     if dev_channel:
         await dev_channel.send(f"Error in `{event}`:\n```{tb[:1900]}```")
-    print(tb, file=sys.stderr))
+    print(tb, file=sys.stderr)
 
 async def update_status():
     url = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=3471110"
