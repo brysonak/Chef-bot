@@ -38,6 +38,8 @@ class Leaderboard(commands.Cog):
         print("Waiting for bot to be ready before starting leaderboard loop...")
         await self.bot.wait_until_ready()
 
+
+    # TODO: Make this look cooler, possibly in a stylized embed or something.
     @staticmethod
     def generate_leaderboard_message():
         board = nmk_leader.query_board_top('flappy', top_count=10)
