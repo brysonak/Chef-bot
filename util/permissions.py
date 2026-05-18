@@ -1,11 +1,11 @@
 import discord
 from discord.ext import commands
-
+# Use these for prefix commands, not slash commands.
 
 def is_mod():
     async def predicate(ctx):
         if isinstance(ctx.author, discord.Member):
-            return ctx.author.guild_permissions.manage_messages or ctx.author.guild_permissions.administrator
+            return ctx.author.guild_permissions.manage_messages or ctx.author.guild_permissions.administrator or ctx.author.guild_permissions.manage_channels
         return False
     return commands.check(predicate)
 
