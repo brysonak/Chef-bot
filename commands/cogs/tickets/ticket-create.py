@@ -4,7 +4,7 @@ from discord import app_commands
 import pytz
 from datetime import datetime
 
-TICKET_CATEGORY_ID = 1235871701829550080
+TICKET_CATEGORY = 1235871701829550080
 
 
 class CloseWithReasonModal(discord.ui.Modal, title="Close Ticket"):
@@ -53,7 +53,7 @@ class TicketCreate(commands.Cog):
     @app_commands.command(name="ticket-create", description="Create a support ticket")
     async def ticket_create(self, interaction: discord.Interaction, reason: str):
         guild = interaction.guild
-        category = guild.get_channel(TICKET_CATEGORY_ID)
+        category = guild.get_channel(TICKET_CATEGORY)
 
         ticket_number = self.next_ticket_number()
         channel_name = f"ticket-{ticket_number}"

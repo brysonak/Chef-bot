@@ -12,6 +12,7 @@ DEFAULT_PREFIX = os.getenv("DEFAULT_PREFIX", "!")
 
 COGS_PATH = "commands.cogs"
 CHEF_PATH = "commands.chef"
+TICKETS_PATH = "commands.cogs.tickets"
 
 COGS = [
     "honeypot",
@@ -22,6 +23,13 @@ COGS = [
 CHEF_COGS = [
     "is-the-bot-dying",
     "reactToMessages"
+]
+
+TICKET_COGS = [
+    "ticket-create",
+    "ticket-close",
+    "ticket-add",
+    "ticket-rename",
 ]
 
 
@@ -90,6 +98,10 @@ async def load_cogs():
     for cog in CHEF_COGS:
         await bot.load_extension(f"{CHEF_PATH}.{cog}")
         print(f"loaded chef cog: {cog}")
+
+    for cog in TICKET_COGS:
+        await bot.load_extension(f"{TICKETS_PATH}.{cog}")
+        print(f"loaded ticket cog: {cog}")
 
 
 async def main():
