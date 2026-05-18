@@ -3,6 +3,9 @@ from discord.ext import commands
 from discord import app_commands
 import pytz
 from datetime import datetime
+import logging
+
+log = logging.getLogger(__name__)
 
 TICKET_CATEGORY = 1235871701829550080
 
@@ -27,6 +30,7 @@ class TicketView(discord.ui.View):
     @discord.ui.button(label="Close", style=discord.ButtonStyle.danger, custom_id="ticket_close")
     async def close_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         if not (interaction.user.guild_permissions.manage_messages or interaction.user.guild_permissions.administrator or interaction.user.guild_permissions.manage_channels):
+            log.warning(f"Unauthorized close attempt on {interaction.channel.name} by {interaction.user} ({interaction.user.id})")
             await interaction.response.send_message("Only moderators can close tickets.", ephemeral=True)
             return
         await interaction.response.defer()
@@ -35,6 +39,7 @@ class TicketView(discord.ui.View):
     @discord.ui.button(label="Close with Reason", style=discord.ButtonStyle.secondary, custom_id="ticket_close_reason")
     async def close_with_reason_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         if not (interaction.user.guild_permissions.manage_messages or interaction.user.guild_permissions.administrator or interaction.user.guild_permissions.manage_channels):
+            log.warning(f"Unauthorized close-with-reason attempt on {interaction.channel.name} by {interaction.user} ({interaction.user.id})")
             await interaction.response.send_message("Only moderators can close tickets.", ephemeral=True)
             return
         await interaction.response.send_modal(CloseWithReasonModal(self.cog))
@@ -52,11 +57,15 @@ class TicketCreate(commands.Cog):
 
     @app_commands.command(name="ticket-create", description="Create a support ticket")
     async def ticket_create(self, interaction: discord.Interaction, reason: str):
+        await interaction.response.defer(ephemeral=True)
+
         guild = interaction.guild
         category = guild.get_channel(TICKET_CATEGORY)
 
         ticket_number = self.next_ticket_number()
         channel_name = f"ticket-{ticket_number}"
+
+        log.info(f"Creating {channel_name} for {interaction.user} ({interaction.user.id}) | reason: {reason}")
 
         overwrites = {
             guild.default_role: discord.PermissionOverwrite(view_channel=False),
@@ -66,11 +75,16 @@ class TicketCreate(commands.Cog):
             if role.permissions.manage_messages or role.permissions.administrator:
                 overwrites[role] = discord.PermissionOverwrite(view_channel=True, send_messages=True, read_message_history=True)
 
-        channel = await guild.create_text_channel(
-            name=channel_name,
-            category=category,
-            overwrites=overwrites
-        )
+        try:
+            channel = await guild.create_text_channel(
+                name=channel_name,
+                category=category,
+                overwrites=overwrites
+            )
+        except discord.HTTPException as e:
+            log.error(f"Failed to create channel {channel_name}: {e}")
+            await interaction.followup.send("Failed to create ticket channel. Please contact a moderator.", ephemeral=True)
+            return
 
         est = pytz.timezone("America/New_York")
         opened_at = datetime.now(est)
@@ -82,6 +96,8 @@ class TicketCreate(commands.Cog):
             "participants": {interaction.user.id: interaction.user},
         }
 
+        log.info(f"Ticket {channel_name} ({channel.id}) opened successfully")
+
         embed = discord.Embed(title=f"Ticket #{ticket_number}", color=discord.Color.blurple())
         embed.add_field(name="Reason", value=reason, inline=False)
         embed.set_footer(text="A mod will be with you as soon as possible, please be patient!")
@@ -89,7 +105,7 @@ class TicketCreate(commands.Cog):
         view = TicketView(self)
         await channel.send(embed=embed, view=view)
 
-        await interaction.response.send_message(f"Ticket created: {channel.mention}", ephemeral=True)
+        await interaction.followup.send(f"Ticket created: {channel.mention}", ephemeral=True)
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
@@ -101,7 +117,10 @@ class TicketCreate(commands.Cog):
     async def close_ticket(self, channel: discord.TextChannel, closer: discord.Member, close_reason: str | None):
         ticket_data = self.open_tickets.get(channel.id)
         if not ticket_data:
+            log.warning(f"close_ticket called on {channel.name} ({channel.id}) but no ticket data found")
             return
+
+        log.info(f"Closing ticket {channel.name} ({channel.id}) by {closer} ({closer.id}) | reason: {close_reason or 'No reason specified'}")
 
         est = pytz.timezone("America/New_York")
         closed_at = datetime.now(est)
@@ -121,11 +140,12 @@ class TicketCreate(commands.Cog):
         for member in participants:
             try:
                 await member.send(embed=embed)
-            except discord.HTTPException:
-                pass
+            except discord.HTTPException as e:
+                log.warning(f"Failed to DM {member} ({member.id}) ticket summary: {e}")
 
         del self.open_tickets[channel.id]
         await channel.delete()
+        log.info(f"Ticket {channel.name} ({channel.id}) deleted")
 
 
 async def setup(bot):
