@@ -132,7 +132,7 @@ class TicketCreate(commands.Cog):
                 await member.send(embed=embed)
             except discord.HTTPException:
                 pass
-        ticket_log_channel = self.cog.bot.get_channel(1506163696525639741)
+        ticket_log_channel = self.bot.get_channel(1506163696525639741)
         ticket_channel_text = "```\n"
         print("Logging ticket...")
         async for message in channel.history(limit=None, oldest_first=True):
