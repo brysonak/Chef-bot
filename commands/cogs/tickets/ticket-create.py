@@ -135,7 +135,7 @@ class TicketCreate(commands.Cog):
         ticket_log_channel = self.cog.bot.get_channel(1506163696525639741)
         ticket_channel_text = "```\n"
         print("Logging ticket...")
-        for message in await channel.history(limit=None, oldest_first=True):
+        async for message in channel.history(limit=None, oldest_first=True):
             ticket_channel_text += f"{message.author.display_name}: {message.content}\n"
         file_buffer = io.BytesIO(ticket_channel_text.encode('utf-8'))
         await ticket_log_channel.send(file=discord.File(file_buffer, filename="ticket_log.txt"), embed=embed) #Send the text log as a file to avoid character limit issues.
