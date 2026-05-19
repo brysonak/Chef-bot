@@ -1,3 +1,5 @@
+import io
+
 import discord
 from discord.ext import commands
 from discord import app_commands
@@ -93,7 +95,7 @@ class TicketCreate(commands.Cog):
         embed.set_footer(text="A mod will be with you as soon as possible, please be patient!")
 
         view = TicketView(self)
-        await channel.send(content=interaction.user.mention, embed=embed, view=view)
+        await channel.send(content=interaction.user.mention + " <@&1502422374732140688>", embed=embed, view=view)
 
         await interaction.followup.send(f"Ticket created: {channel.mention}", ephemeral=True)
 
@@ -130,7 +132,12 @@ class TicketCreate(commands.Cog):
                 await member.send(embed=embed)
             except discord.HTTPException:
                 pass
-
+        ticket_log_channel = self.cog.bot.get_channel(1506163696525639741)
+        ticket_channel_text = "```\n"
+        for message in await channel.history(limit=None, oldest_first=True):
+            ticket_channel_text += f"{message.author.display_name}: {message.content}\n"
+        file_buffer = io.BytesIO(ticket_channel_text.encode('utf-8'))
+        await ticket_log_channel.send(file=discord.File(file_buffer, filename="ticket_log.txt"), embed=embed) #Send the text log as a file to avoid character limit issues.
         del self.open_tickets[channel.id]
         await channel.delete()
 
