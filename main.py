@@ -22,7 +22,8 @@ COGS = [
 
 CHEF_COGS = [
     "is-the-bot-dying",
-    "reactToMessages"
+    "reactToMessages",
+    "compile"
 ]
 
 TICKET_COGS = [
