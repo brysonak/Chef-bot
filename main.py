@@ -17,7 +17,8 @@ TICKETS_PATH = "commands.cogs.tickets"
 COGS = [
     "honeypot",
     "reload_changed_extension",
-    "leaderboard"
+    "leaderboard",
+    "how"
 ]
 
 CHEF_COGS = [
