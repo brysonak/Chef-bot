@@ -57,7 +57,10 @@ def get_board(boardid):
 
 def query_board_top(boardid, top_count=10):
     leaderboard = get_board(boardid)
-    all_scores = leaderboard.entries
+    try:
+        all_scores = leaderboard.entries
+    except AttributeError as e:
+        return str(leaderboard)
 
     top_board = []
 
