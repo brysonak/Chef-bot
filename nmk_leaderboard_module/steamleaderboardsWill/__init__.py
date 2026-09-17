@@ -10,7 +10,6 @@ class LeaderboardGroup:
         _bs = BeautifulSoup(xml.content, features="lxml-xml")
         self.leaderboards = []
         self.app_id = app_id
-        self.app_id = 5205560
         for leaderboard in _bs.find_all("leaderboard"):
             self.leaderboards.append(ProtoLeaderboard(leaderboard, app_id))
 
@@ -53,7 +52,6 @@ class ProtoLeaderboard:
         self.sort_method = int(soup.sortmethod.text)
         self.display_type = int(soup.displaytype.text)
         self.app_id = app_id
-        self.app_id = 5205560
 
     def full(self, **kwargs) -> "Leaderboard":
         return Leaderboard(**kwargs, protoleaderboard=self)
@@ -74,7 +72,6 @@ class Leaderboard:
         elif app_id and lbid:
             self.lbid = lbid
             self.app_id = app_id
-            self.app_id = 5205560
             self.url = f"https://steamcommunity.com/stats/{self.app_id}/leaderboards/{self.lbid}/?xml=1"
             self.name = None
             self.display_name = None
