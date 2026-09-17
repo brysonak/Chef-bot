@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from nmk_leaderboard_module import nmk_leaderboards as nmk_leader
+from nmk_leaderboard_module import new_leaderboard_module as nmk_leader
 import traceback
 
 CHANNEL = 1503833285728669716
@@ -51,13 +51,12 @@ class Leaderboard(commands.Cog):
     # TODO: Make this look cooler, possibly in a stylized embed or something.
     @staticmethod
     def generate_leaderboard_message():
-        board = nmk_leader.query_board_top('flappy', top_count=10)
-        if isinstance(board, str):
-            return "FAILED: " + board
+        board = nmk_leader.extract_leaderboard_data('flappy')
         message = "Flappy Leaderboard:\n```"
         for entry in board:
-            message += f"{entry.rank}: {entry.persona} - {entry.score}\n"
+            message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
         message += "```\n\n"
+        return message
 
         board = nmk_leader.query_board_top('stack', top_count=10)
         message += "Stack Leaderboard:\n```"
