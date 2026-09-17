@@ -13,7 +13,7 @@ ORG_API_KEY = os.getenv("ORG_API_KEY")
 print(f'BytebackStudios org API key parsed from env: {ORG_API_KEY}')
 
 NMK_APP_ID = 3077140
-NMK_PLAYTEST_APP_ID = 3471110
+NMK_PLAYTEST_APP_ID = 5205560
 NMK_LEADERBOARD_MAP = {
     'flappy' : LeaderboardInfo('leaderboard_nmk_flappy', 'Flappy'),
     'stack' : LeaderboardInfo('leaderboard_nmk_stack', 'Stack'),
