@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands, tasks
 from nmk_leaderboard_module import nmk_leaderboards as nmk_leader
+import traceback
 
 CHANNEL = 1503833285728669716
 
@@ -38,7 +39,7 @@ class Leaderboard(commands.Cog):
                 await leaderboard_channel.send("Todays Top Chefs:\n" + leaderboard_message)
             return 1
         except Exception as e:
-            return e
+            return traceback.format_exc()
 
     @edit_leaderboard.before_loop
     async def before_edit_leaderboard(self):
