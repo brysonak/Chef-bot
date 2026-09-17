@@ -12,26 +12,33 @@ class Leaderboard(commands.Cog):
     @commands.command(name='update_leaderboard')
     @commands.has_permissions(manage_messages=True)
     async def update_leaderboard(self, ctx):
-        await self.edit_leaderboard()
-        await ctx.send("Leaderboard updated!")
+        e = await self.edit_leaderboard()
+        if (e == 1):
+            await ctx.send("Leaderboard updated!")
+        else:
+            await ctx.send("Leaderboard failed to update with exception " + e)
 
     @tasks.loop(minutes=1440)
     async def edit_leaderboard(self):
-        edited_leaderboard = False
-        leaderboard_channel = self.bot.get_channel(CHANNEL)
-        # Gotta add in the class here because intellisense is fucking annoying.
-        leaderboard_message = Leaderboard.generate_leaderboard_message()
+        try:
+            edited_leaderboard = False
+            leaderboard_channel = self.bot.get_channel(CHANNEL)
+            # Gotta add in the class here because intellisense is fucking annoying.
+            leaderboard_message = Leaderboard.generate_leaderboard_message()
 
-        if leaderboard_channel is not None:
-            async for message in leaderboard_channel.history(limit=100):
-                if message.author == self.bot.user:
-                    try:
-                        await message.edit(content="Todays Top Chefs:\n" + leaderboard_message)
-                        edited_leaderboard = True
-                    except discord.HTTPException:
-                        pass
-        if not edited_leaderboard and leaderboard_channel is not None:
-            await leaderboard_channel.send("Todays Top Chefs:\n" + leaderboard_message)
+            if leaderboard_channel is not None:
+                async for message in leaderboard_channel.history(limit=100):
+                    if message.author == self.bot.user:
+                        try:
+                            await message.edit(content="Todays Top Chefs:\n" + leaderboard_message)
+                            edited_leaderboard = True
+                        except discord.HTTPException:
+                            pass
+            if not edited_leaderboard and leaderboard_channel is not None:
+                await leaderboard_channel.send("Todays Top Chefs:\n" + leaderboard_message)
+            return 1
+        except Exception as e:
+            return e
 
     @edit_leaderboard.before_loop
     async def before_edit_leaderboard(self):
