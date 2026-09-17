@@ -51,25 +51,28 @@ class Leaderboard(commands.Cog):
     # TODO: Make this look cooler, possibly in a stylized embed or something.
     @staticmethod
     def generate_leaderboard_message():
-        board = nmk_leader.extract_leaderboard_data('flappy')
-        message = "Flappy Leaderboard:\n```"
-        for entry in board:
-            message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
-        message += "```\n\n"
+        try:
+            board = nmk_leader.extract_leaderboard_data('flappy')
+            message = "Flappy Leaderboard:\n```"
+            for entry in board:
+                message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
+            message += "```\n\n"
 
-        board = nmk_leader.extract_leaderboard_data('stack')
-        message += "Stack Leaderboard:\n```"
-        for entry in board:
-            message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
-        message += "```\n\n"
+            board = nmk_leader.extract_leaderboard_data('stack')
+            message += "Stack Leaderboard:\n```"
+            for entry in board:
+                message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
+            message += "```\n\n"
 
-        board = nmk_leader.extract_leaderboard_data('rope')
-        message += "Rope Leaderboard:\n```"
-        for entry in board:
-            message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
-        message += "```\n\n"
-
-        return message
+            board = nmk_leader.extract_leaderboard_data('rope')
+            message += "Rope Leaderboard:\n```"
+            for entry in board:
+                message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
+            message += "```\n\n"
+    
+            return message
+        except Exception as e:
+            return "FAILURE" + traceback.format_exc()
 
 
     async def cog_unload(self):
