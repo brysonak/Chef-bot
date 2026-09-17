@@ -52,7 +52,8 @@ def get_board(boardid):
     board_data = NMK_LEADERBOARD_MAP[boardid]
     nmk_leaderboards = steamboards.LeaderboardGroup(NMK_PLAYTEST_APP_ID)
     leaderboard = nmk_leaderboards.get(name=board_data.steamid)
-    
+    if leaderboard is None:
+        return str(board_data) + " " + str(nmk_leaderboards)
     return leaderboard
 
 def query_board_top(boardid, top_count=10):
