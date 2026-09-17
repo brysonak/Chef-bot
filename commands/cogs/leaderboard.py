@@ -56,19 +56,18 @@ class Leaderboard(commands.Cog):
         for entry in board:
             message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
         message += "```\n\n"
-        return message
 
-        board = nmk_leader.query_board_top('stack', top_count=10)
+        board = nmk_leader.extract_leaderboard_data('stack')
         message += "Stack Leaderboard:\n```"
         for entry in board:
-            message += f"{entry.rank}: {entry.persona} - {entry.score}\n"
+            message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
         message += "```\n\n"
 
-        board = nmk_leader.query_board_top('rope', top_count=10)
+        board = nmk_leader.extract_leaderboard_data('rope')
         message += "Rope Leaderboard:\n```"
         for entry in board:
-            message += f"{entry.rank}: {entry.persona} - {entry.score}\n"
-        message += "```"
+            message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
+        message += "```\n\n"
 
         return message
 
