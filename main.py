@@ -64,7 +64,7 @@ async def on_error(event, *args, **kwargs):
     print(tb, file=sys.stderr)
 
 async def update_status():
-    url = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=3471110"
+    url = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=5205560"
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
             if response.status == 200:
