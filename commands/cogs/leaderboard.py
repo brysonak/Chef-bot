@@ -26,7 +26,8 @@ class Leaderboard(commands.Cog):
             leaderboard_channel = self.bot.get_channel(CHANNEL)
             # Gotta add in the class here because intellisense is fucking annoying.
             leaderboard_message = Leaderboard.generate_leaderboard_message()
-
+            if leaderboard_message.startswith("FAILED:"):
+                return leaderboard_message
             if leaderboard_channel is not None:
                 async for message in leaderboard_channel.history(limit=100):
                     if message.author == self.bot.user:
@@ -51,6 +52,8 @@ class Leaderboard(commands.Cog):
     @staticmethod
     def generate_leaderboard_message():
         board = nmk_leader.query_board_top('flappy', top_count=10)
+        if isinstance(board, string):
+            return "FAILED: " + board
         message = "Flappy Leaderboard:\n```"
         for entry in board:
             message += f"{entry.rank}: {entry.persona} - {entry.score}\n"
