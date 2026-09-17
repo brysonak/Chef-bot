@@ -46,7 +46,8 @@ def steamid_to_username(steamid):
     except Exception as e:
         return f"Error: {str(e)}"
 
-def extract_leaderboard_data(json_data):
+def extract_leaderboard_data(board):
+  json_data = getLeaderboards(board)
   entries = json_data.get('leaderboardEntryInformation', {}).get(
       'leaderboardEntries', []
   )
