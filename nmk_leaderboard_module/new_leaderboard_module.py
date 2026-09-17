@@ -62,11 +62,9 @@ def extract_leaderboard_data(board):
   ]
 
 def format_leaderboard_data(board):
-    data = extract_leaderboard_data(getLeaderboards(board))
+    data = extract_leaderboard_data(board)
     string = ""
     for item in data:
         string += f"Rank:{item["rank"]}, Score: {item["score"]}, User: {item["persona"]} \n"
     return string
 
-for item in LEADERBOARD_IDS:
-    print(item + ":\n" + format_leaderboard_data(item))
