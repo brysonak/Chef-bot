@@ -52,7 +52,7 @@ class Leaderboard(commands.Cog):
     @staticmethod
     def generate_leaderboard_message():
         board = nmk_leader.query_board_top('flappy', top_count=10)
-        if isinstance(board, string):
+        if isinstance(board, str):
             return "FAILED: " + board
         message = "Flappy Leaderboard:\n```"
         for entry in board:
