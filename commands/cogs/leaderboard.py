@@ -16,7 +16,7 @@ class Leaderboard(commands.Cog):
         if (e == 1):
             await ctx.send("Leaderboard updated!")
         else:
-            await ctx.send("Leaderboard failed to update with exception " + e)
+            await ctx.send("Leaderboard failed to update with exception " + str(e))
 
     @tasks.loop(minutes=1440)
     async def edit_leaderboard(self):
