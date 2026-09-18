@@ -69,6 +69,12 @@ class Leaderboard(commands.Cog):
             for entry in board:
                 message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
             message += "```\n\n"
+
+            board = nmk_leader.extract_leaderboard_data('ddr')
+            message += "Salt n' Peppa Leaderboard:\n```"
+            for entry in board:
+                message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
+            message += "```\n\n"
     
             return message
         except Exception as e:
