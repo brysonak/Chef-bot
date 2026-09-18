@@ -26,13 +26,13 @@ class Leaderboard(commands.Cog):
             leaderboard_channel = self.bot.get_channel(CHANNEL)
             # Gotta add in the class here because intellisense is fucking annoying.
             leaderboard_message = Leaderboard.generate_leaderboard_message()
-            if leaderboard_message.startswith("FAILED:"):
+            if isinstance(leaderboard_message, str):
                 return leaderboard_message
             if leaderboard_channel is not None:
                 async for message in leaderboard_channel.history(limit=100):
                     if message.author == self.bot.user:
                         try:
-                            await message.edit(content="Todays Top Chefs:\n" + leaderboard_message)
+                            await message.edit(content="", embed=leaderboard_message)
                             edited_leaderboard = True
                         except discord.HTTPException:
                             pass
@@ -49,34 +49,58 @@ class Leaderboard(commands.Cog):
 
 
     # TODO: Make this look cooler, possibly in a stylized embed or something.
+    # Done. - Nickwilde7755
     @staticmethod
     def generate_leaderboard_message():
         try:
+            embed = discord.Embed(title="Today's Top Chefs :NK_chefs_kiss:")
+
             board = nmk_leader.extract_leaderboard_data('flappy')
-            message = "Flappy Leaderboard:\n```"
+            value = ""
             for entry in board:
-                message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
-            message += "```\n\n"
+                value += f"Rank {entry["rank"]}: {entry["persona"]} with a score of {entry["score"]}"
+                if (entry["rank"] == 1):
+                    value += " :NK_first_person_clap:"
+                value += "\n"
+            embed.add_field(name="Flappy Scores:",
+                value=value,
+                inline=False)
 
             board = nmk_leader.extract_leaderboard_data('stack')
-            message += "Stack Leaderboard:\n```"
+            value = ""
             for entry in board:
-                message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
-            message += "```\n\n"
+                value += f"Rank {entry["rank"]}: {entry["persona"]} with a score of {entry["score"]}"
+                if (entry["rank"] == 1):
+                    value += " :NK_first_person_clap:"
+                value += "\n"
+            embed.add_field(name="Stack Scores:",
+                value=value,
+                inline=False)
 
             board = nmk_leader.extract_leaderboard_data('rope')
-            message += "Rope Leaderboard:\n```"
+            value = ""
             for entry in board:
-                message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
-            message += "```\n\n"
+                value += f"Rank {entry["rank"]}: {entry["persona"]} with a score of {entry["score"]}"
+                if (entry["rank"] == 1):
+                    value += " :NK_first_person_clap:"
+                value += "\n"
+            embed.add_field(name="Rope Scores:",
+                value=value,
+                inline=False)
 
             board = nmk_leader.extract_leaderboard_data('ddr')
-            message += "Salt n' Peppa Leaderboard:\n```"
+            value = ""
             for entry in board:
-                message += f"{entry["rank"]}: {entry["persona"]} - {entry["score"]}\n"
-            message += "```\n\n"
-    
-            return message
+                value += f"Rank {entry["rank"]}: {entry["persona"]} with a score of {entry["score"]}"
+                if (entry["rank"] == 1):
+                    value += " :NK_first_person_clap:"
+                value += "\n"
+            embed.add_field(name="Salt n' Peppa Scores:",
+                value=value,
+                inline=False)
+
+            embed.set_footer(text="Get out there and get some top scores! We know you can do it!")
+            return embed
         except Exception as e:
             return "FAILURE" + traceback.format_exc()
 
