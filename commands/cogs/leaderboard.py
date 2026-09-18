@@ -53,14 +53,14 @@ class Leaderboard(commands.Cog):
     @staticmethod
     def generate_leaderboard_message():
         try:
-            embed = discord.Embed(title="Today's Top Chefs :NK_chefs_kiss:")
+            embed = discord.Embed(title="Today's Top Chefs <:NK_chefs_kiss:1348365674229006396>")
 
             board = nmk_leader.extract_leaderboard_data('flappy')
             value = ""
             for entry in board:
                 value += f"Rank {entry["rank"]}: {entry["persona"]} with a score of {entry["score"]}"
                 if (entry["rank"] == 1):
-                    value += " :NK_first_person_clap:"
+                    value += " <a:NK_first_person_clap:1318309594589691975>"
                 value += "\n"
             embed.add_field(name="Flappy Scores:",
                 value=value,
@@ -71,7 +71,7 @@ class Leaderboard(commands.Cog):
             for entry in board:
                 value += f"Rank {entry["rank"]}: {entry["persona"]} with a score of {entry["score"]}"
                 if (entry["rank"] == 1):
-                    value += " :NK_first_person_clap:"
+                    value += " <a:NK_first_person_clap:1318309594589691975>"
                 value += "\n"
             embed.add_field(name="Stack Scores:",
                 value=value,
@@ -82,7 +82,7 @@ class Leaderboard(commands.Cog):
             for entry in board:
                 value += f"Rank {entry["rank"]}: {entry["persona"]} with a score of {entry["score"]}"
                 if (entry["rank"] == 1):
-                    value += " :NK_first_person_clap:"
+                    value += " <a:NK_first_person_clap:1318309594589691975>"
                 value += "\n"
             embed.add_field(name="Rope Scores:",
                 value=value,
@@ -93,7 +93,7 @@ class Leaderboard(commands.Cog):
             for entry in board:
                 value += f"Rank {entry["rank"]}: {entry["persona"]} with a score of {entry["score"]}"
                 if (entry["rank"] == 1):
-                    value += " :NK_first_person_clap:"
+                    value += " <a:NK_first_person_clap:1318309594589691975>"
                 value += "\n"
             embed.add_field(name="Salt n' Peppa Scores:",
                 value=value,
