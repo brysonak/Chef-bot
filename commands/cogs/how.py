@@ -19,4 +19,6 @@ class How(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(How(bot))
+    #await bot.add_cog(How(bot))
+    pass
+    #TODO Clear this file since the playtest no longer exists in favor of the public demo
