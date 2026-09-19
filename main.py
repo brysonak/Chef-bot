@@ -18,7 +18,8 @@ COGS = [
     "honeypot",
     "reload_changed_extension",
     "leaderboard",
-    "how"
+    "how",
+    "remindme"
 ]
 
 CHEF_COGS = [
