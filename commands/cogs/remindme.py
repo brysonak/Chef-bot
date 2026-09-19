@@ -29,7 +29,7 @@ class Remindme(commands.Cog):
             await message.reply(f"Got it, reminding you to {reminder}, in {time}{unit}")
 
     async def reminderFunction(self, message, reminder, time, unit):
-        unit = unit.srtip().lower()[0:1]
+        unit = unit.strip().lower()[0:1]
         if unit == "h":
             await asyncio.sleep(float(time)*3600)
         if unit == "m":
