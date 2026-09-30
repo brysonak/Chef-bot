@@ -17,7 +17,7 @@ class Remindme(commands.Cog):
 ])
     async def reminderCommand(self, interaction: discord.Interaction, reminder: str, time: int, unit: app_commands.Choice[str]):
             asyncio.create_task(self.reminderFunction(interaction, reminder, time, unit.value))
-            await interaction.message.reply(f"Got it, reminding you to {reminder}, in {time} {unit.name}")
+            await interaction.channel.send(f"Got it, reminding you to {reminder}, in {time} {unit.name}")
 
     async def reminderFunction(self, interaction, reminder, time, unit):
         if unit == "h":
