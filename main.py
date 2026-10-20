@@ -19,7 +19,8 @@ COGS = [
     "reload_changed_extension",
     "leaderboard",
     "how",
-    "remindme"
+    "remindme",
+    "phonecall"
 ]
 
 CHEF_COGS = [
