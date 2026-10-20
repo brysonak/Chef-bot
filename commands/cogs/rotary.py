@@ -11,7 +11,7 @@ prefixCodes = {
     "his favorite AM station was always 580": "580",
     "his favorite AM station was always 760": "760",
     "his favorite AM station was always 420": "420",
-                    
+
 }
 
 lineCodes = {
@@ -49,48 +49,38 @@ wrongNumberStrings = [
 ]
 
 
-
-
 def initializeGame():
-    global location, prefix, line
-    choice = random.randint(0, len(areaCodes)-1)
-    location = list(areaCodes.keys())[choice]
-    choice = random.randint(0, len(prefixCodes)-1)
-    prefix = list(prefixCodes.keys())[choice]
-    choice = random.randint(0, len(lineCodes)-1)
-    line = list(lineCodes.keys())[choice]
-    phoneNumber1, phoneNumber2, phoneNumber3 = random.sample(phoneNumbersToCall, 3)
-    phoneNumber = areaCodes[location] + "-" + prefixCodes[prefix] + "-" + lineCodes[line]
+    location = random.choice(list(areaCodes))
+    prefix = random.choice(list(prefixCodes))
+    line = random.choice(list(lineCodes))
+    p1, p2, p3 = random.sample(phoneNumbersToCall, 3)
+    target = areaCodes[location] + "-" + prefixCodes[prefix] + "-" + lineCodes[line]
+    return {"location": location, "prefix": prefix, "line": line,
+            "p1": p1, "p2": p2, "p3": p3, "target": target}
 
-def giveLocation(number):
-    global location
-    return f"Oh I remember him! He used to live out in {location}. Try calling one of his other friends, she may be able to help you more.\nYou can reach her at {number}"
+def giveLocation(g):
+    return f"Oh I remember him! He used to live out in {g['location']}. Try calling one of his other friends, she may be able to help you more.\nYou can reach her at {g['p2']}"
 
-def givePrefix(number):
-    global prefix
-    return f"Everyone loved that guy! I remember {prefix}. I'm sorry I couldn't tell you more, but maybe his brother can help you!\nYou can call him at {number}, just tell him I sent you!"
+def givePrefix(g):
+    return f"Everyone loved that guy! I remember {g['prefix']}. I'm sorry I couldn't tell you more, but maybe his brother can help you!\nYou can call him at {g['p3']}, just tell him I sent you!"
 
-def giveLine():
-    global line
-    return f"Yeah I remember when he registered his number, I was right there with him! {line}."
+def giveLine(g):
+    return f"Yeah I remember when he registered his number, I was right there with him! {g['line']}."
 
 if __name__ == "__main__":
+    g = initializeGame()
     inputStr = ""
-    print(f"You are trying to track down a phone number. Your only lead is that you can reach one of his friends at {phoneNumber1}")
+    print(f"You are trying to track down a phone number. Your only lead is that you can reach one of his friends at {g['p1']}")
     while not inputStr == "exit":
         inputStr = input("What phone number would you like to dial? ")
-        if (inputStr == phoneNumber1):
-            print(giveLocation(phoneNumber2))
-        elif (inputStr == phoneNumber2):
-            print(givePrefix(phoneNumber3))
-        elif (inputStr == phoneNumber3):
-            print(giveLine())
-        elif (inputStr == phoneNumber):
+        if inputStr == g["p1"]:
+            print(giveLocation(g))
+        elif inputStr == g["p2"]:
+            print(givePrefix(g))
+        elif inputStr == g["p3"]:
+            print(giveLine(g))
+        elif inputStr == g["target"]:
             print("You Win! You sucessfully called him about his car's extended warranty!")
             inputStr = "exit"
-        else:
+        elif inputStr != "exit":
             print(random.choice(wrongNumberStrings))
-        
-
-
-
