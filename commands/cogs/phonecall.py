@@ -47,7 +47,7 @@ class Phonecall(commands.Cog):
                 await interaction.channel.send(random.choice(wrongNumberStrings))
 
     @phonecallCommand.error
-    async def test_command_error(interaction: discord.Interaction, error: app_commands.AppCommandError):
+    async def phonecallCommand_error(interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CheckFailure):
             await interaction.response.send_message(
                 "You cannot use this command in this channel.", 
