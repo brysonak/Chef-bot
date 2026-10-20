@@ -43,10 +43,10 @@ class Phonecall(commands.Cog):
             elif (inputStr == phoneNumber):
                 await interaction.channel.send("You Win! You sucessfully called him about his car's extended warranty!")
                 inputStr = "exit"
-            else:
+            elif (not inputStr == "exit"):
                 await interaction.channel.send(random.choice(wrongNumberStrings))
 
-    @test_command.error
+    @phonecallCommand.error
     async def test_command_error(interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CheckFailure):
             await interaction.response.send_message(
